@@ -64,7 +64,7 @@ class Engine {
                 l.add(0);
             }
             for(int j = 4; j > 4-l.size(); j--) {
-                map[5-j][i] = l.get(l.size()-j);
+                t[5-j][i] = l.get(l.size()-j);
             }
         }
         return t;
@@ -99,7 +99,7 @@ class Engine {
                 l.add(0);
             }
             for(int j = 4; j > 4-l.size(); j--) {
-                map[j][i] = l.get(l.size()-j);
+                t[j][i] = l.get(l.size()-j);
             }
         }
         return t;
@@ -134,7 +134,7 @@ class Engine {
                 l.add(0);
             }
             for(int j = 4; j > 4-l.size(); j--) {
-                map[i][5-j] = l.get(l.size()-j);
+                t[i][5-j] = l.get(l.size()-j);
             }
         }
         return t;
@@ -169,20 +169,25 @@ class Engine {
                 l.add(0);
             }
             for(int j = 4; j > 4-l.size(); j--) {
-                map[i][j] = l.get(l.size()-j);
+                t[i][j] = l.get(l.size()-j);
             }
         }
         return t;
     }
 
     public void addNum() {
-        int i = 2;
+        int i = 1;
         while (i > 0 && !iffull()) {
             int x = Math.abs(random.nextInt() % 4) + 1;
             int y = Math.abs(random.nextInt() % 4) + 1;
             if(map[x][y] == 0) {
                 i--;
-                map[x][y] = (Math.abs(random.nextInt() % 2) + 1) * 2;
+                if(Math.abs(random.nextInt() % 10) == 0) {
+                    map[x][y] = 4;
+                } else {
+                    map[x][y] = 2;
+                }
+                // map[x][y] = (Math.abs(random.nextInt() % 2) + 1) * 2;
             }
         }
     }
@@ -227,5 +232,11 @@ class Engine {
             }
         }
         return 0;
+    }
+
+    public void CopyArray(int[][] src,int[][] dist) {
+        for(int i = 0; i < Math.min(src.length,dist.length); i++) {
+            System.arraycopy(src[i], 0, dist[i], 0, Math.min(src[i].length, dist[i].length));
+        }
     }
 }

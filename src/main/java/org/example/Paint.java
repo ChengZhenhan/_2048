@@ -29,21 +29,33 @@ class Paint extends JFrame {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT -> {
                         System.out.println("left");
+                        int[][] t = new int[5][5];
+                        Main.engine.CopyArray(map, t);
+                        if (Arrays.deepEquals(t, Main.engine.left())) { break; }
                         Main.engine.setMap(Main.engine.left());
                         Main.engine.next();
                     }
                     case KeyEvent.VK_RIGHT -> {
                         System.out.println("right");
+                        int[][] t = new int[5][5];
+                        Main.engine.CopyArray(map, t);
+                        if (Arrays.deepEquals(t, Main.engine.right())) { break; }
                         Main.engine.setMap(Main.engine.right());
                         Main.engine.next();
                     }
                     case KeyEvent.VK_DOWN -> {
                         System.out.println("down");
+                        int[][] t = new int[5][5];
+                        Main.engine.CopyArray(map, t);
+                        if (Arrays.deepEquals(t, Main.engine.down())) { break; }
                         Main.engine.setMap(Main.engine.down());
                         Main.engine.next();
                     }
                     case KeyEvent.VK_UP -> {
                         System.out.println("up");
+                        int[][] t = new int[5][5];
+                        Main.engine.CopyArray(map, t);
+                        if (Arrays.deepEquals(t, Main.engine.up())) { break; }
                         Main.engine.setMap(Main.engine.up());
                         Main.engine.next();
                     }
