@@ -6,6 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
+
 import static java.lang.System.exit;
 
 
@@ -70,6 +71,15 @@ class Paint extends JFrame {
 
         g.setColor(BG_COLOR);
         g.fillRect(0,0,this.getWidth(),this.getHeight());
+        g.setColor(Color.ORANGE);
+        g.setFont(new Font("Arial", Font.BOLD, 42));
+        int w2 = getWordWidth(new Font("Arial", Font.BOLD, 42), "2048");
+        g.drawString("2048", (this.getWidth() - w2) / 3, (this.getHeight() - 4*BLOCK_SIZE - 3*BLOCK_MARGIN) / 2 - w2 / "2048".length());
+        g.setColor(Color.GRAY);
+        g.setFont(new Font("Arial", Font.BOLD, 24));
+        w2 = getWordWidth(new Font("Arial", Font.BOLD, 24), "Score:"+String.valueOf(Main.engine.getScore()));
+        g.drawString("Score:"+String.valueOf(Main.engine.getScore()),(this.getWidth() - w2) / 3 * 2, (this.getHeight() - 4*BLOCK_SIZE - 3*BLOCK_MARGIN) / 2 - w2 / ("Score:"+String.valueOf(Main.engine.getScore())).length());
+//        getFontMetrics(new Font("Arial", Font.BOLD, 42));
         for(int i = 1; i <= 4; i++) {
             for(int j = 1; j <= 4; j++) {
                 Font font = new Font("Arial", Font.BOLD, map[i][j] < 100 ? 36 : map[i][j] < 1000 ? 32 : 24);
@@ -121,5 +131,9 @@ class Paint extends JFrame {
             case 2048 -> new Color(0xedc22e);
             default -> new Color(0xcdc1b4);
         };
+    }
+
+    public int getWordWidth(Font font, String content) {
+        return getFontMetrics(font).stringWidth(content);
     }
 }

@@ -48,12 +48,14 @@ class Engine {
             for (int j = 0; j < l.size(); j++) {
                 if (j-1 >= 0 && Objects.equals(l.get(j), l.get(j - 1))) {
                     int n = l.get(j) + l.get(j-1);
+                    score += Math.log(n) / Math.log(2);
                     l.remove(j-1);
                     l.add(j-1,n);
                     l.remove(j);
                 }
                 if (j+1 < l.size() && Objects.equals(l.get(j), l.get(j + 1))) {
                     int n = l.get(j) + l.get(j+1);
+                    score += Math.log(n) / Math.log(2);
                     l.remove(j);
                     l.add(j,n);
                     l.remove(j+1);
@@ -83,6 +85,7 @@ class Engine {
             for (int j = 0; j < l.size(); j++) {
                 if (j+1 < l.size() && Objects.equals(l.get(j), l.get(j + 1))) {
                     int n = l.get(j) + l.get(j+1);
+                    score += Math.log(n) / Math.log(2);
                     l.remove(j);
                     l.add(j,n);
                     l.remove(j+1);
@@ -90,6 +93,7 @@ class Engine {
                 }
                 if (j-1 >= 0 && Objects.equals(l.get(j), l.get(j - 1))) {
                     int n = l.get(j) + l.get(j-1);
+                    score += Math.log(n) / Math.log(2);
                     l.remove(j-1);
                     l.add(j-1,n);
                     l.remove(j);
@@ -118,12 +122,14 @@ class Engine {
             for (int j = 0; j < l.size(); j++) {
                 if (j-1 >= 0 && Objects.equals(l.get(j), l.get(j - 1))) {
                     int n = l.get(j) + l.get(j-1);
+                    score += Math.log(n) / Math.log(2);
                     l.remove(j-1);
                     l.add(j-1,n);
                     l.remove(j);
                 }
                 if (j+1 < l.size() && Objects.equals(l.get(j), l.get(j + 1))) {
                     int n = l.get(j) + l.get(j+1);
+                    score += Math.log(n) / Math.log(2);
                     l.remove(j);
                     l.add(j,n);
                     l.remove(j+1);
@@ -153,6 +159,7 @@ class Engine {
             for (int j = 0; j < l.size(); j++) {
                 if (j+1 < l.size() && Objects.equals(l.get(j), l.get(j + 1))) {
                     int n = l.get(j) + l.get(j+1);
+                    score += Math.log(n) / Math.log(2);
                     l.remove(j);
                     l.add(j,n);
                     l.remove(j+1);
@@ -160,6 +167,7 @@ class Engine {
                 }
                 if (j-1 >= 0 && Objects.equals(l.get(j), l.get(j - 1))) {
                     int n = l.get(j) + l.get(j-1);
+                    score += Math.log(n) / Math.log(2);
                     l.remove(j-1);
                     l.add(j-1,n);
                     l.remove(j);
