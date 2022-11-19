@@ -1,1 +1,6 @@
-# _2048
+# 2048
+
+## How to build
+'''
+mvn jar:jar
+'''
