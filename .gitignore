@@ -1,3 +1,4 @@
 *.jar
 checks.json
 target/classes/org/*
+.idea
