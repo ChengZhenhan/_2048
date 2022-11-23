@@ -1,5 +1,6 @@
 package org.example;
 
+import java.io.*;
 import java.util.*;
 
 
@@ -35,6 +36,69 @@ class Engine {
         return this.map != map;
     }
 
+	public static <T> List<T> deepCopy(List<T> src) throws IOException, ClassNotFoundException {
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(byteOut);
+        out.writeObject(src);
+
+        ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
+        ObjectInputStream in = new ObjectInputStream(byteIn);
+        @SuppressWarnings("unchecked")
+		List<T> dest = (List<T>) in.readObject();
+        return dest;
+    }
+
+	public List<Integer> merge(List<Integer> l, boolean ud){
+		List<Integer> n;
+		try {
+			n = deepCopy(l);
+		} catch (IOException | ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+		if(!ud) {
+            for (int j = 0; j < n.size(); j++) {
+                if (j+1 < n.size() && Objects.equals(n.get(j), n.get(j + 1))) {
+                    int m = n.get(j) + n.get(j+1);
+                    score += Math.log(m) / Math.log(2);
+                    n.remove(j);
+                    n.add(j,m);
+                    n.remove(j+1);
+                    j--;
+                }
+                if (j-1 >= 0 && Objects.equals(n.get(j), n.get(j - 1))) {
+                    int m = n.get(j) + n.get(j-1);
+                    score += Math.log(m) / Math.log(2);
+                    n.remove(j-1);
+                    n.add(j-1,m);
+                    n.remove(j);
+                }
+            }
+        } else {
+            for (int j = 0; j < n.size(); j++) {
+                if (j-1 >= 0 && Objects.equals(n.get(j), n.get(j - 1))) {
+                    int m = n.get(j) + n.get(j-1);
+                    score += Math.log(m) / Math.log(2);
+                    n.remove(j-1);
+                    n.add(j-1,m);
+                    n.remove(j);
+                }
+				if (j+1 < n.size() && Objects.equals(n.get(j), n.get(j + 1))) {
+                    int m = n.get(j) + n.get(j+1);
+                    score += Math.log(m) / Math.log(2);
+                    n.remove(j);
+                    n.add(j,m);
+                    n.remove(j+1);
+                    j--;
+                }
+            }
+        }
+
+		while(n.size() < 4) {
+            n.add(0);
+        }
+		return n;
+    }
+
     public int[][] up() {
         int[][] t = Arrays.copyOf(map,5);
         for (int i = 1; i <= 4; i++) {
@@ -45,26 +109,7 @@ class Engine {
                 }
                 l.add(map[j][i]);
             }
-            for (int j = 0; j < l.size(); j++) {
-                if (j-1 >= 0 && Objects.equals(l.get(j), l.get(j - 1))) {
-                    int n = l.get(j) + l.get(j-1);
-                    score += Math.log(n) / Math.log(2);
-                    l.remove(j-1);
-                    l.add(j-1,n);
-                    l.remove(j);
-                }
-                if (j+1 < l.size() && Objects.equals(l.get(j), l.get(j + 1))) {
-                    int n = l.get(j) + l.get(j+1);
-                    score += Math.log(n) / Math.log(2);
-                    l.remove(j);
-                    l.add(j,n);
-                    l.remove(j+1);
-                    j--;
-                }
-            }
-            while(l.size() < 4) {
-                l.add(0);
-            }
+			l = merge(l, true);
             for(int j = 4; j > 4-l.size(); j--) {
                 t[5-j][i] = l.get(l.size()-j);
             }
@@ -82,26 +127,7 @@ class Engine {
                 }
                 l.add(map[j][i]);
             }
-            for (int j = 0; j < l.size(); j++) {
-                if (j+1 < l.size() && Objects.equals(l.get(j), l.get(j + 1))) {
-                    int n = l.get(j) + l.get(j+1);
-                    score += Math.log(n) / Math.log(2);
-                    l.remove(j);
-                    l.add(j,n);
-                    l.remove(j+1);
-                    j--;
-                }
-                if (j-1 >= 0 && Objects.equals(l.get(j), l.get(j - 1))) {
-                    int n = l.get(j) + l.get(j-1);
-                    score += Math.log(n) / Math.log(2);
-                    l.remove(j-1);
-                    l.add(j-1,n);
-                    l.remove(j);
-                }
-            }
-            while(l.size() < 4) {
-                l.add(0);
-            }
+            l = merge(l, false);
             for(int j = 4; j > 4-l.size(); j--) {
                 t[j][i] = l.get(l.size()-j);
             }
@@ -119,26 +145,7 @@ class Engine {
                 }
                 l.add(map[i][j]);
             }
-            for (int j = 0; j < l.size(); j++) {
-                if (j-1 >= 0 && Objects.equals(l.get(j), l.get(j - 1))) {
-                    int n = l.get(j) + l.get(j-1);
-                    score += Math.log(n) / Math.log(2);
-                    l.remove(j-1);
-                    l.add(j-1,n);
-                    l.remove(j);
-                }
-                if (j+1 < l.size() && Objects.equals(l.get(j), l.get(j + 1))) {
-                    int n = l.get(j) + l.get(j+1);
-                    score += Math.log(n) / Math.log(2);
-                    l.remove(j);
-                    l.add(j,n);
-                    l.remove(j+1);
-                    j--;
-                }
-            }
-            while(l.size() < 4) {
-                l.add(0);
-            }
+            l = merge(l, true);
             for(int j = 4; j > 4-l.size(); j--) {
                 t[i][5-j] = l.get(l.size()-j);
             }
@@ -156,26 +163,7 @@ class Engine {
                 }
                 l.add(map[i][j]);
             }
-            for (int j = 0; j < l.size(); j++) {
-                if (j+1 < l.size() && Objects.equals(l.get(j), l.get(j + 1))) {
-                    int n = l.get(j) + l.get(j+1);
-                    score += Math.log(n) / Math.log(2);
-                    l.remove(j);
-                    l.add(j,n);
-                    l.remove(j+1);
-                    j--;
-                }
-                if (j-1 >= 0 && Objects.equals(l.get(j), l.get(j - 1))) {
-                    int n = l.get(j) + l.get(j-1);
-                    score += Math.log(n) / Math.log(2);
-                    l.remove(j-1);
-                    l.add(j-1,n);
-                    l.remove(j);
-                }
-            }
-            while(l.size() < 4) {
-                l.add(0);
-            }
+            l = merge(l, false);
             for(int j = 4; j > 4-l.size(); j--) {
                 t[i][j] = l.get(l.size()-j);
             }
@@ -242,7 +230,7 @@ class Engine {
         return 0;
     }
 
-    public void CopyArray(int[][] src,int[][] dist) {
+    public void CopyArray(int[][] src, int[][] dist) {
         for(int i = 0; i < Math.min(src.length,dist.length); i++) {
             System.arraycopy(src[i], 0, dist[i], 0, Math.min(src[i].length, dist[i].length));
         }

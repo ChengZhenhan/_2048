@@ -8,6 +8,7 @@ public class Main {
         engine.addNum();
         engine.show();
         new Paint(engine.getMap());
+//        new MoveTest();
 //        System.out.println("up");
 //        engine.setMap(engine.up());
 //        engine.show();
