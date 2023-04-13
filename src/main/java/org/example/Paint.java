@@ -4,23 +4,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Arrays;
 
 
 import static java.lang.System.exit;
 
 
-class Paint extends JFrame {
+class Paint extends JPanel implements Runnable {
     int[][] map;
+    /**
+     *  0 -> 不移动
+     *  1 -> 初步移动
+     *  2 -> 合并
+     */
+    int step = 0;
     Color BG_COLOR = new Color(0xbbada0);
     private static final int BLOCK_SIZE = 64;
     private static final int BLOCK_MARGIN = 16;
     public Paint(int[][] map) {
         this.map = Arrays.copyOf(map,map.length);
-        this.setSize(500,500);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("2048");
-        this.setVisible(true);
+//        this.setSize(500,500);
+//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        this.setTitle("2048");
+//        this.setVisible(true);
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -135,5 +142,15 @@ class Paint extends JFrame {
 
     public int getWordWidth(Font font, String content) {
         return getFontMetrics(font).stringWidth(content);
+    }
+
+    @Override
+    public void run() {
+        try {
+            Thread.sleep(10);
+            repaint();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
